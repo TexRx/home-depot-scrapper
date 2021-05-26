@@ -1,4 +1,31 @@
 const puppeteer = require("puppeteer");
+const Discord = require("discord.js");
+require("dotenv").config();
+
+const client = new Discord.Client();
+client.login(process.env.BOT_TOKEN);
+
+client.on("ready", readyDiscord);
+
+client.on("message", respondToMessage);
+
+function readyDiscord() {
+  console.log("discord client is ready");
+}
+
+function respondToMessage(msg) {
+  if (msg.author.bot) {
+    console.log("ignoring bot message");
+    return;
+  }
+
+  if (
+    msg.mentions.has(client.user) &&
+    msg.channel.id === "846996057737265162"
+  ) {
+    msg.reply("Howdy");
+  }
+}
 
 (async function scrape() {
   const browser = await puppeteer.launch({ headless: false });
@@ -44,5 +71,5 @@ const puppeteer = require("puppeteer");
   });
 
   console.log(products);
-  await browser.close();
+  //await browser.close();
 })();
